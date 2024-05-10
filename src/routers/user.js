@@ -1,6 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const User = require('../models/users');
+const auth = require('../middleware/auth');
 
 
 //to create a new user /signup
@@ -30,20 +31,37 @@ router.post('/users/login', async (req, res)=>{
     
 })
 
-//to read all users
-router.get('/users', async (req, res)=>{
-
+router.post('/users/logout', auth, async (req, res)=>{
     try {
-        const users = await User.find({});
-        res.send(users);
+        req.user.tokens = req.user.tokens.filter((token)=>{
+            return token.token !== req.token;
+        })
+        await req.user.save();
+        res.send()
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(error)
     }
+})
+
+router.post('/users/logoutAll', auth, async (req, res)=>{
+    try {
+        req.user.tokens = [];
+        await req.user.save();
+        res.send('Logged out of all devices')
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+//to read all users
+router.get('/users/me', auth, async (req, res)=>{
+
+    res.send(req.user)
 
 })
 
 //to read a single user
-router.get('/users/:id', async (req, res)=>{
+router.get('/users/:id',auth, async (req, res)=>{
 
     const _id = req.params.id;
     
@@ -59,7 +77,7 @@ router.get('/users/:id', async (req, res)=>{
 })
 
 //to update user
-router.patch('/users/:id', async (req,res)=>{
+router.patch('/users/:id', auth, async (req,res)=>{
     const id = req.params.id;
     const updates = Object.keys(req.body);
     const allowedUpdates = ['name','email','password','age'];
@@ -87,7 +105,7 @@ router.patch('/users/:id', async (req,res)=>{
 })
 
 //to delete a user
-router.delete('/users/:id', async (req, res)=>{
+router.delete('/users/:id', auth,async (req, res)=>{
     try {
         const user = await User.findByIdAndDelete(req.params.id);
 
