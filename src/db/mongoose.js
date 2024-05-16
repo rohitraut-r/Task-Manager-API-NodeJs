@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 
-mongoose.connect("mongodb+srv://rohitraut4033:RFpZQ60PyWZbZjGD@task-manager.fg93nwo.mongodb.net/?retryWrites=true&w=majority&appName=task-manager")
+mongoose.connect(process.env.DATABASE)
 .then(()=>{
     console.log('connected!')
 }).catch(()=>{

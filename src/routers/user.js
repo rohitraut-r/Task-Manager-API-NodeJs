@@ -53,7 +53,7 @@ router.post('/users/logoutAll', auth, async (req, res)=>{
     }
 })
 
-//to read all users
+//to read the authenticated user
 router.get('/users/me', auth, async (req, res)=>{
 
     res.send(req.user)
@@ -61,20 +61,20 @@ router.get('/users/me', auth, async (req, res)=>{
 })
 
 //to read a single user
-router.get('/users/:id',auth, async (req, res)=>{
+// router.get('/users/:id',auth, async (req, res)=>{
 
-    const _id = req.params.id;
+//     const _id = req.params.id;
     
-    try {
-        const user = await User.findById(_id);
-        if(!user){
-            return res.status(404).send("user not found");
-        }
-        res.send(user);
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
+//     try {
+//         const user = await User.findById(_id);
+//         if(!user){
+//             return res.status(404).send("user not found");
+//         }
+//         res.send(user);
+//     } catch (error) {
+//         res.status(500).send(error)
+//     }
+// })
 
 //to update user
 router.patch('/users/:id', auth, async (req,res)=>{
@@ -88,30 +88,26 @@ router.patch('/users/:id', auth, async (req,res)=>{
     }
 
     try {
-        const user = await User.findById(id);
+        // const user = await User.findById(id);
 
-        updates.forEach((update)=>user[update] = req.body[update])
+        updates.forEach((update)=>req.user[update] = req.body[update])
 
-        await user.save();
+        await req.user.save();
 
         // const user = await User.findByIdAndUpdate(id, req.body, {new: true, runValidators: true});
-        if(!user){
-            return res.status(404).send('not found');
-        }
-        res.send(user);
+        
+        res.send(req.user);
     } catch (error) {
         res.status(400).send(error);
     }
 })
 
 //to delete a user
-router.delete('/users/:id', auth,async (req, res)=>{
+router.delete('/users/me', auth,async (req, res)=>{
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findByIdAndDelete(req.user._id);
 
-        if(!user){
-            return res.status(404).send("user not found");
-        }
+        
 
         res.send(user);
     } catch (error) {
