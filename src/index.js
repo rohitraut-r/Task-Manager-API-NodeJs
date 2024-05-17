@@ -9,12 +9,26 @@ const app = express();
 
 const port = process.env.PORT || 3000 ;
 
-//middleware this runs between request and route handler 
-// app.use((req, res, next)=>{
-  
-//         res.status(503).send("website is in maintainance mode please try again")
-   
-// })
+
+const multer = require('multer')
+const upload = multer({
+    dest: 'images',
+    limits:{
+        fileSize: 1000000
+    },
+    fileFilter (req, file, cb) {
+       if(!file.originalname.match(/\.(doc|docx)$/)){
+            return cb(new Error('Please upload a word document'))
+       }
+
+       cb(undefined, true);
+    }
+})
+
+
+
+
+
 
 app.use(express.json());
 
@@ -27,17 +41,5 @@ app.listen(port, ()=>{
     console.log('server is running on port '+ port)
 });
 
-// const main = async () =>{
-//     // const task = await Task.findById('6645b34eb1dcdf42eae61159');
 
-//     // await task.populate('owner');
-
-//     // console.log(task.owner);
-
-//     const user = await User.findById('66422b1a8732b5cd914f4a0c');
-//     await user.populate('tasks');
-//     console.log(user.tasks)
-
-// }
-// main();
 
