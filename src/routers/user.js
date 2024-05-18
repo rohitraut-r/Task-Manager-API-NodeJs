@@ -4,7 +4,7 @@ const multer = require('multer');
 const sharp = require('sharp');
 const User = require('../models/users');
 const auth = require('../middleware/auth');
-const {sendWelcomeEmail} = require('../emails/account')
+const {sendWelcomeEmail, sendCancelationEmail} = require('../emails/account')
 
 
 //to create a new user /signup
@@ -95,6 +95,7 @@ router.patch('/users/:id', auth, async (req,res)=>{
 router.delete('/users/me', auth,async (req, res)=>{
     try {
         const user = await User.findByIdAndDelete(req.user._id);
+        sendCancelationEmail(user.email, user.name)
         res.send(user);
     } catch (error) {
         res.status(400).send(error);
