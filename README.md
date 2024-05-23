@@ -20,12 +20,10 @@ A task management application built with Node.js, Express.js, and MongoDB. This 
 ## Getting Started
 
 1. Clone the repository:
-   
-git@github.com:rohitraut-r/Task-Manager-API-NodeJs.git
+   git@github.com:rohitraut-r/Task-Manager-API-NodeJs.git
 
 3. Install dependencies:
-
-npm install
+   npm install
 
 5. Set up the environment variables:
 - Create a `.env` file in the root directory
@@ -36,24 +34,6 @@ npm install
 4. Start the server:
 The app will be running at `http://localhost:3000`.
 
-## API Endpoints
-
-- `POST /api/users/register`: Register a new user
-- `POST /api/users/login`: User login
-- `GET /api/tasks`: Get all tasks for the authenticated user
-- `POST /api/tasks`: Create a new task
-- `PUT /api/tasks/:id`: Update an existing task
-- `DELETE /api/tasks/:id`: Delete a task
-
-## Contributing
-
-Contributions are welcome! Please follow the standard GitHub workflow:
-
-1. Fork the repository
-2. Create a new branch for your feature or bug fix
-3. Commit your changes
-4. Push to the branch
-5. Open a pull request
 
 ## License
 
