@@ -20,11 +20,14 @@ A task management application built with Node.js, Express.js, and MongoDB. This 
 ## Getting Started
 
 1. Clone the repository:
+   
 git@github.com:rohitraut-r/Task-Manager-API-NodeJs.git
 
 3. Install dependencies:
 
-4. Set up the environment variables:
+npm install
+
+5. Set up the environment variables:
 - Create a `.env` file in the root directory
 - Add the following variables:
   - `MONGODB_URI`: Your MongoDB connection string
